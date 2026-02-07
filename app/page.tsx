@@ -3,6 +3,9 @@ import { feedNeonGotchi } from './action';
 import { unstable_cache } from 'next/cache';
 import GotchiTimer from './GotchiTimer';
 
+export const dynamic = 'force-dynamic'; // ページを常に最新の状態で生成させる
+export const revalidate = 0;           // キャッシュの保持時間を0にする
+
 // 1. キャッシュ化されたデータ取得関数
 const getGotchiData = unstable_cache(
   async () => {
