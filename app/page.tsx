@@ -88,7 +88,14 @@ export default async function Home() {
       <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left', display: 'inline-block' }}>
         {logs.map((log: any) => (
           <li key={log.id} style={{ marginBottom: '0.5rem' }}>
-            <small>[{new Date(log.created_at).toLocaleTimeString()}]</small> {log.message}
+            <small>
+              [{new Date(log.created_at).toLocaleTimeString('ja-JP', {
+                timeZone: 'Asia/Tokyo',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              })}]
+            </small> {log.message}
           </li>
         ))}
       </ul>
