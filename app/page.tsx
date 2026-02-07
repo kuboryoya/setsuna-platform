@@ -45,13 +45,38 @@ export default async function Home() {
       {/* 5分(300秒)経つ前だけボタンを出す */}
       {diffInSeconds <= 300 ? (
         <form action={feedNeonGotchi}>
-          <button type="submit" style={{ /* スタイル省略 */ }}>
+          <button
+            type="submit"
+            style={{
+              padding: '1rem 2.5rem',
+              fontSize: '1.1rem',
+              fontWeight: '600',
+              color: 'white',
+              background: '#6c5ce7',
+              border: 'none',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 4px 15px rgba(108, 92, 231, 0.3)',
+            }}
+          >
             エサをあげる
           </button>
         </form>
       ) : (
         <form action={feedNeonGotchi}>
-          <button type="submit" style={{ /* スタイル省略 */ }}>
+          <button type="submit" style={{
+            padding: '1rem 2.5rem',
+            fontSize: '1.1rem',
+            fontWeight: '600',
+            color: 'white',
+            background: '#6c5ce7',
+            border: 'none',
+            borderRadius: '12px',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            boxShadow: '0 4px 15px rgba(108, 92, 231, 0.3)',
+          }}>
             新しく飼い直す（転生）
           </button>
         </form>
