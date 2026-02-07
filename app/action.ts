@@ -28,6 +28,6 @@ export async function feedNeonGotchi() {
     VALUES (${actionType}, ${message})
   `;
 
-  revalidateTag('gotchi', 'page');
+  revalidateTag('gotchi', 'max');
   revalidatePath('/');
 }
