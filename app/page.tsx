@@ -25,10 +25,27 @@ const getGotchiLogs = unstable_cache(
   { tags: ['gotchi'] } // 同じタグにしておけばエサやり時に一緒に更新される
 );
 
+// 統計取得用の関数
+const getGotchiStats = unstable_cache(
+  async () => {
+    const sql = neon(process.env.DATABASE_URL!);
+    const [stats] = await sql`
+      SELECT 
+        COUNT(*) FILTER (WHERE action_type = 'FEED') as feed_count,
+        COUNT(*) FILTER (WHERE action_type = 'REBIRTH') as rebirth_count
+      FROM gotchi_logs
+    `;
+    return stats;
+  },
+  ['gotchi-stats-key'],
+  { tags: ['gotchi'] } // エサやり時に一括で更新されるようにする
+);
+
 export default async function Home() {
   // 2. キャッシュからデータを取得（タグ 'gotchi' が有効な間はDBへ行かない）
   const gotchi = await getGotchiData();
   const logs = await getGotchiLogs(); // ログ取得
+  const stats = await getGotchiStats(); // 統計取得
 
   // 3. 現在時刻との差分を計算
   const lastFed = new Date(gotchi.last_fed_at).getTime();
@@ -38,6 +55,11 @@ export default async function Home() {
   return (
     <main style={{ padding: '2rem', textAlign: 'center', fontFamily: 'monospace' }}>
       <h1>Neon-gotchi 2026</h1>
+
+      {/* 統計の表示 */}
+      <div style={{ marginBottom: '1rem', fontSize: '0.9rem', color: '#666' }}>
+        累計エサやり: {stats.feed_count}回 / 転生: {stats.rebirth_count}回
+      </div>
 
       {/* ここでブラウザ側のタイマーに初期値を渡す */}
       <GotchiTimer key={Date.now()} initialDiff={diffInSeconds} />
